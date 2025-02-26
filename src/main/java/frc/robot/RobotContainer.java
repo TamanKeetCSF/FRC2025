@@ -49,7 +49,6 @@ public class RobotContainer {
       final JoystickButton button1Y = new JoystickButton(Player1Controller, 4);
 
     //declaracion control2
-  
       final JoystickButton button2A = new JoystickButton(Player2Controller, 1);
       final JoystickButton button2B = new JoystickButton(Player2Controller, 2);
       final JoystickButton button2X = new JoystickButton(Player2Controller, 3);
