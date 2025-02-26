@@ -27,16 +27,20 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    //encoder = muneca.getEncoder();
-    encoder.setPosition(0);  // Optionally reset encoder position
+    encoder = muneca.getEncoder();
+    encoder.setPosition(0);  
 
     PIDMuneca = new PIDController(kP, kI, kD);
-    PIDMuneca.setTolerance(1);
+    PIDMuneca.setTolerance(2);
   }
 
   @Override
   public void periodic() {
-    // You can call actualizarMotor() here if you want continuous updates
+    actualizarMotor();
+  }
+
+  public void setIntake(double power){
+    muneca.set(power);
   }
 
   public void ponerAngulo(double angulo) {
@@ -58,16 +62,14 @@ public class Intake extends SubsystemBase {
     return encoder.getPosition() / TICKS_PER_DEGREE;
   }
 
-  public void comer(){
+  public void Comer(){
     Intake.set(0.3);
   }
-  public void desComer(){
+  public void DesComer(){
     Intake.set(-0.3);
   }
-  public void dejarComer(){
+  public void DejarComer(){
     Intake.set(0);
   }
-
-
 
 }

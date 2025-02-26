@@ -1,32 +1,46 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.SwerveDriveSubsystem;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class DriveWithJoysticks extends Command {
-  /** Creates a new DriveWithJoysticks. */
-  public DriveWithJoysticks() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
+    
+    private final SwerveDriveSubsystem swerveDrive;
+    private final XboxController controller;
+    
+    public DriveWithJoysticks(SwerveDriveSubsystem swerveDrive, XboxController controller) {
+        this.swerveDrive = swerveDrive;
+        this.controller = controller;
+        addRequirements(swerveDrive);
+    }
+    
+    @Override
+    public void execute() {
+        double xSpeed = -controller.getLeftX(); 
+        double ySpeed = -controller.getLeftY(); 
+        double rotation = controller.getRightX(); 
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+        double leftTrigger = controller.getLeftTriggerAxis(); 
+        if (leftTrigger > 0.1) {
+            double slowModeFactor = 0.5; 
+            xSpeed *= slowModeFactor;
+            ySpeed *= slowModeFactor;
+            rotation *= slowModeFactor;
+        }
+        //System.out.println("lectura del control x" + xSpeed);
+        //System.out.println("lectura del control y" + ySpeed);
+        //System.out.println("lectura del control r" + rotation);
+        swerveDrive.drive(xSpeed, ySpeed, rotation);
+    }
+    
+    @Override
+    public void end(boolean interrupted) {
+        swerveDrive.stop();
+    }
+    
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
