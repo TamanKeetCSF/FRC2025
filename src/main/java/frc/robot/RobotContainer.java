@@ -38,7 +38,6 @@ public class RobotContainer {
     m_intake.setDefaultCommand(new ManualSetIntake(m_intake, Player2Controller.getLeftY()));
   }
   
-  
   private void configureBindings() {
     // declaracion control 1
 
