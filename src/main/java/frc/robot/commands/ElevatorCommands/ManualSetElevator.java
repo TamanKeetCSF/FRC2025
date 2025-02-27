@@ -1,18 +1,19 @@
 package frc.robot.commands.ElevatorCommands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ManualSetElevator extends Command {
   
   private final Elevator elevator;
-  private final double power;
+  private final XboxController controller;
 
   /** Creates a new MoveElevatorToHeight. */
-  public ManualSetElevator(Elevator elevator, double power) {
+  public ManualSetElevator(Elevator elevator, XboxController controller) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.elevator = elevator;
-    this.power = power;
+    this.controller = controller;
     addRequirements(elevator);
   }
 
@@ -23,7 +24,9 @@ public class ManualSetElevator extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.setElevator(power);
+    //if(!elevator.IsElevatorMax() && !elevator.IsElevatorMin())
+      elevator.setElevator(-controller.getRightY());
+    System.out.println("elevador: " + controller.getRightY());
   }
 
   // Called once the command ends or is interrupted.

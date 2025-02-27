@@ -7,13 +7,11 @@ import frc.robot.subsystems.Intake;
 public class ManualSetIntake extends Command {
 
   private final Intake intake;
-  private final double power;
 
   /** Creates a new ManualSetIntake. */
-  public ManualSetIntake(Intake intake, double power) {
+  public ManualSetIntake(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
-    this.power = power;
     addRequirements(intake);
   }
 
@@ -24,7 +22,7 @@ public class ManualSetIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setIntake(power);
+    intake.actualizarMotor();
   }
 
   // Called once the command ends or is interrupted.

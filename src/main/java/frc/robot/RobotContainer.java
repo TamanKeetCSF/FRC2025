@@ -33,9 +33,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
-    m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
-    m_elevador.setDefaultCommand(new ManualSetElevator(m_elevador, Player2Controller.getRightY()));
-    m_intake.setDefaultCommand(new ManualSetIntake(m_intake, Player2Controller.getLeftY()));
+    //m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
+    m_elevador.setDefaultCommand(new ManualSetElevator(m_elevador, Player2Controller));
+    m_intake.setDefaultCommand(new ManualSetIntake(m_intake));
   }
   
   private void configureBindings() {
@@ -66,6 +66,8 @@ public class RobotContainer {
     //bindings subsistemas
 
       //intake
+
+
       button2A.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(90)));
       button2B.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(40)));
       button2X.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(170)));
@@ -77,8 +79,10 @@ public class RobotContainer {
       .onFalse(new InstantCommand(() -> m_intake.DejarComer(),m_intake));
 
       //elevator
-      new POVButton(Player2Controller, 0).onTrue(new SetElevatorMax(m_elevador));
-      new POVButton(Player1Controller, 180).onTrue(new SetElevatorMin(m_elevador));
+      new POVButton(Player2Controller, 0).onTrue(new InstantCommand(() -> m_bola.marcoBaja()))
+      .onFalse(new InstantCommand(() -> m_bola.marcoStop()));
+      new POVButton(Player1Controller, 180).onTrue(new InstantCommand(() -> m_bola.marcoSube()))
+      .onFalse(new InstantCommand(() -> m_bola.marcoStop()));;
 
       //ball intake
       button2BumperR.onTrue(new InstantCommand(() -> m_bola.ballIntakeComer(),m_bola))

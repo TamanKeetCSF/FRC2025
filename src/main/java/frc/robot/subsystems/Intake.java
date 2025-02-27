@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase {
 
   @Override
   public void periodic() {
-    actualizarMotor();
+    
   }
 
   public void setIntake(double power){
