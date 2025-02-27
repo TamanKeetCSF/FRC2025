@@ -26,7 +26,7 @@ public class SwerveModule extends SubsystemBase {
         steerPID = new PIDController(SwerveConstants.STEER_P, SwerveConstants.STEER_I, SwerveConstants.STEER_D);
         SmartDashboard.putData("SwerveSteerPID", steerPID);
         steerPID.enableContinuousInput(-180, 180); 
-        steerPID.setTolerance(5,10);
+        steerPID.setTolerance(5);
         }
 
     public void setDesiredState(SwerveModuleState desiredState) {
@@ -46,7 +46,7 @@ public class SwerveModule extends SubsystemBase {
         double steerOutput = steerPID.calculate(rawEncoderAngle, targetAngle);
        
         // Optional: If within deadband, force output to zero.
-        if (Math.abs(rawEncoderAngle - targetAngle) < 5 || Math.abs(Math.abs(encoder.getAbsolutePosition().getValueAsDouble()*360 - targetAngle)-180) < 7) {
+        if (Math.abs(rawEncoderAngle - targetAngle) <  10|| Math.abs(Math.abs(encoder.getAbsolutePosition().getValueAsDouble()*360 - targetAngle)-180) < 10) {
             steerOutput = 0;
         }
        
