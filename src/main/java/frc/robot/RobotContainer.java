@@ -13,6 +13,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.SwerveDriveSubsystem;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS5Controller;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -22,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
 
-  private final XboxController Player1Controller = new XboxController(0);
+  private final PS5Controller Player1Controller = new PS5Controller(0);
   private final XboxController Player2Controller = new XboxController(1);
 
   private final SwerveDriveSubsystem m_chasis = new SwerveDriveSubsystem();
@@ -33,7 +34,7 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
-    //m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
+    m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
     m_elevador.setDefaultCommand(new ManualSetElevator(m_elevador, Player2Controller));
     m_intake.setDefaultCommand(new ManualSetIntake(m_intake));
   }
