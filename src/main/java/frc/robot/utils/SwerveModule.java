@@ -46,7 +46,7 @@ public class SwerveModule extends SubsystemBase {
         double steerOutput = steerPID.calculate(rawEncoderAngle, targetAngle);
        
         // Optional: If within deadband, force output to zero.
-        if (Math.abs(rawEncoderAngle - targetAngle) <  10|| Math.abs(Math.abs(encoder.getAbsolutePosition().getValueAsDouble()*360 - targetAngle)-180) < 10) {
+        if (Math.abs(rawEncoderAngle - targetAngle) <  10|| Math.abs(Math.abs(encoder.getAbsolutePosition().getValueAsDouble()*360 - targetAngle)-180) < 20) {
             steerOutput = 0;
         }
        
@@ -62,7 +62,7 @@ public class SwerveModule extends SubsystemBase {
         System.out.println("PIDangulo" + steerOutput);
        
         driveMotor.set(driveOutput);
-        steerMotor.set(steerOutput * 10);  // Adjust scale factor if needed.
+        steerMotor.set(steerOutput);  // Adjust scale factor if needed.
     }
     
     public Rotation2d getModuleAngle() {

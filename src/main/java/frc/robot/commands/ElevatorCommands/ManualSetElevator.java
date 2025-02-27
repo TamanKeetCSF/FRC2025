@@ -25,8 +25,15 @@ public class ManualSetElevator extends Command {
   @Override
   public void execute() {
     //if(!elevator.IsElevatorMax() && !elevator.IsElevatorMin())
-      elevator.setElevator(-controller.getRightY());
-    System.out.println("elevador: " + controller.getRightY());
+    double potencia = -controller.getRightY();
+
+    if((!elevator.IsElevatorMax() && potencia <= 0) || (!elevator.IsElevatorMin() && potencia >= 0)){
+      elevator.setElevator(0);
+    }
+    else{
+      elevator.setElevator(potencia);
+    }
+      
   }
 
   // Called once the command ends or is interrupted.
