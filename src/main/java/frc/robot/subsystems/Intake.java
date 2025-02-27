@@ -5,11 +5,12 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   private final SparkMax muneca = new SparkMax(3, MotorType.kBrushless);
   private final SparkMax Intake = new SparkMax(4, MotorType.kBrushed);
-  private RelativeEncoder encoder;
+  private RelativeEncoder encoderArm;
   private PIDController PIDMuneca;
 
   // PID Constants
@@ -27,8 +28,8 @@ public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
   public Intake() {
-    encoder = muneca.getEncoder();
-    encoder.setPosition(0);  
+    encoderArm = muneca.getEncoder();
+    //encoderArm.setPosition(0);  
 
     PIDMuneca = new PIDController(kP, kI, kD);
     PIDMuneca.setTolerance(2);
@@ -50,16 +51,16 @@ public class Intake extends SubsystemBase {
   }
 
   public void actualizarMotor() {
-    double currentPositionTicks = encoder.getPosition();
-    double pidOutput = PIDMuneca.calculate(currentPositionTicks, setPoint);
-    muneca.set(pidOutput);
-    System.out.println("SetPoint (ticks): " + setPoint);
-    System.out.println("Encoder Position (ticks): " + currentPositionTicks);
-    System.out.println("Current Angle (deg): " + getCurrentAngle());
+    //double currentPositionTicks = encoderArm.getPosition();
+   // double pidOutput = PIDMuneca.calculate(currentPositionTicks, setPoint);
+    //muneca.set(pidOutput);
+    //System.out.println("SetPoint (ticks): " + setPoint);
+    //System.out.println("Encoder Position (ticks): " + currentPositionTicks);
+    //System.out.println("Current Angle (deg): " + getCurrentAngle());
   }
 
-  public double getCurrentAngle() {
-    return encoder.getPosition() / TICKS_PER_DEGREE;
+  public double getArmAngle() {
+    return encoderArm.getPosition(); //;
   }
 
   public void Comer(){
@@ -72,4 +73,11 @@ public class Intake extends SubsystemBase {
     Intake.set(0);
   }
 
+    public boolean IsIntakeMax(){
+      return (Math.abs(encoderArm.getPosition()-Constants.OperatorConstants.MaxArmPosition) < 5);
+    }
+
+    public boolean IsIntakeMaxDesired(){
+      return (Math.abs(encoderArm.getPosition()-Constants.OperatorConstants.DesiredMaxArmPosition) < 5);
+    }
 }

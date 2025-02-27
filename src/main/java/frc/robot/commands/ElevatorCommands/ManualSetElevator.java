@@ -2,6 +2,7 @@ package frc.robot.commands.ElevatorCommands;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.Elevator;
 
 public class ManualSetElevator extends Command {
@@ -19,19 +20,26 @@ public class ManualSetElevator extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize(
+  ) {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     //if(!elevator.IsElevatorMax() && !elevator.IsElevatorMin())
-    double potencia = -controller.getRightY();
+    double potencia = -controller.getLeftY();
+    //System.out.println("minimo alcanzado" + elevator.IsElevatorMin());
+    //System.out.println("maximo alcanzado" + elevator.IsElevatorMax());
+    System.out.println("angulo elevador"+ elevator.getElevatorPosition());
 
-    if((!elevator.IsElevatorMax() && potencia <= 0) || (!elevator.IsElevatorMin() && potencia >= 0)){
+   
+    
+
+    if((elevator.getElevatorPosition() > Constants.OperatorConstants.MinElevatorPosition && potencia <= 0) || (elevator.getElevatorPosition() < Constants.OperatorConstants.MaxElevatorPosition && potencia >= 0)){
       elevator.setElevator(0);
     }
     else{
-      elevator.setElevator(potencia);
+      elevator.setElevator(potencia*0.3);
     }
       
   }

@@ -2,7 +2,9 @@ package frc.robot;
 
 import frc.robot.commands.ElevatorCommands.SetElevatorMax;
 import frc.robot.commands.ElevatorCommands.SetElevatorMin;
+import frc.robot.commands.HangingCommands.hangCommand;
 import frc.robot.commands.IntakeCommands.ManualSetIntake;
+import frc.robot.commands.IntakeCommands.SetIntakeMax;
 import frc.robot.commands.ElevatorCommands.ManualSetElevator;
 import frc.robot.commands.DriveCommands.DriveWithJoysticks ;
 
@@ -34,9 +36,10 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureBindings();
-    m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
+    //m_chasis.setDefaultCommand(new DriveWithJoysticks(m_chasis, Player1Controller));
     m_elevador.setDefaultCommand(new ManualSetElevator(m_elevador, Player2Controller));
-    m_intake.setDefaultCommand(new ManualSetIntake(m_intake));
+    m_intake.setDefaultCommand(new ManualSetIntake(m_intake, Player2Controller));
+    m_colgador.setDefaultCommand(new hangCommand(m_colgador, Player2Controller));
   }
   
   private void configureBindings() {
@@ -69,7 +72,7 @@ public class RobotContainer {
       //intake
 
 
-      button2A.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(90)));
+       button2A.onTrue(new SetIntakeMax(m_intake)); 
       button2B.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(40)));
       button2X.onTrue(new InstantCommand(() -> m_intake.ponerAngulo(170)));
 
@@ -82,7 +85,7 @@ public class RobotContainer {
       //elevator
       new POVButton(Player2Controller, 0).onTrue(new InstantCommand(() -> m_bola.marcoBaja()))
       .onFalse(new InstantCommand(() -> m_bola.marcoStop()));
-      new POVButton(Player1Controller, 180).onTrue(new InstantCommand(() -> m_bola.marcoSube()))
+      new POVButton(Player2Controller, 180).onTrue(new InstantCommand(() -> m_bola.marcoSube()))
       .onFalse(new InstantCommand(() -> m_bola.marcoStop()));;
 
       //ball intake
@@ -93,8 +96,8 @@ public class RobotContainer {
       .onFalse(new InstantCommand(() -> m_bola.ballIntakeStop(),m_bola));
 
       //colgar
-      button2Start.whileTrue(new InstantCommand(()-> m_colgador.setHanger(Player2Controller.getLeftX())))
-      .whileFalse(new InstantCommand(()-> m_colgador.setHanger(0)));
+      //button2Y.whileTrue(new InstantCommand(()-> m_colgador.setHanger(Player2Controller)))
+      //.onFalse(new InstantCommand(()-> m_colgador.hangerStop()));
 
   }
 

@@ -4,13 +4,14 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
-
+import frc.robot.Constants;
 import frc.robot.Constants.SensorConstants;
 
 public class Elevator extends SubsystemBase {
@@ -18,6 +19,7 @@ public class Elevator extends SubsystemBase {
   private final SparkMax m_elevator;
   private final DigitalInput limitMagneticSwitch;
   private final DigitalInput limitMechanicalSwitch;
+  private final  RelativeEncoder encoderElevador;
 
 
     // Add encoders
@@ -25,6 +27,7 @@ public class Elevator extends SubsystemBase {
         m_elevator = new SparkMax(1, MotorType.kBrushless);
         limitMagneticSwitch = new DigitalInput(SensorConstants.MAGNETICSENSOR_DIGITAL_INPUT_PORT);
         limitMechanicalSwitch = new DigitalInput(SensorConstants.MECHANICALSWITCH_DIGITAL_INPUT_PORT);
+        encoderElevador = m_elevator.getEncoder();
     }
 
     @Override
@@ -42,16 +45,39 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean IsElevatorMax(){
-      return limitMagneticSwitch.get();
+      return (Math.abs(encoderElevador.getPosition()-Constants.OperatorConstants.MaxElevatorPosition) < 5);
     }
 
     public boolean IsElevatorMin(){
-      return limitMechanicalSwitch.get();
+      return (Math.abs(encoderElevador.getPosition()-Constants.OperatorConstants.MinElevatorPosition) < 5);
+    }
+
+    public boolean IsElevatorMaxDesired(){
+      return (Math.abs(encoderElevador.getPosition()-Constants.OperatorConstants.DesiredMaxElevatorPosition) < 5);
+    }
+
+    public boolean IsElevatorMinDesired(){
+      return (Math.abs(encoderElevador.getPosition()-Constants.OperatorConstants.DesiredMinElevatorPosition) < 5);
     }
 
     public double getElevatorSpeed() {
-        RelativeEncoder encoderElevador = m_elevator.getEncoder();
         return (encoderElevador.getVelocity());
     }
+
+    
+    public double getElevatorPosition() {
+      return (encoderElevador.getPosition());
+  }
+
+
+    public void resetElevatorEncoder(){
+      encoderElevador.setPosition(0);
+    }
+
+    public void irAMax(double speed){
+      
+    
+    }
+
 
 }
